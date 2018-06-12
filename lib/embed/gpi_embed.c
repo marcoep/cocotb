@@ -114,6 +114,8 @@ void embed_init_python(void)
         LOG_INFO("Using virtualenv at %s.", venv_path);
         Py_SetProgramName(venv_path);   
 #endif
+    } else {
+        LOG_INFO("Did not detect virtual environment. Using system-wide Python interpreter.");
     }
 
     Py_Initialize();                    /* Initialize the interpreter */
