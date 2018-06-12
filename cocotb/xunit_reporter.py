@@ -109,6 +109,11 @@ class XUnitReporter(object):
         else:
             log.text = "".join(f.readlines())
 
+    def add_success(self, testcase=None, **kwargs):
+        if testcase is None:
+            testcase = self.last_testcase
+        log = SubElement(testcase, "success", **kwargs)
+
     def add_failure(self, testcase=None, **kwargs):
         if testcase is None:
             testcase = self.last_testcase

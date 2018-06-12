@@ -218,6 +218,9 @@ class RegressionManager(object):
             return None
         return self._queue.pop(0)
 
+    def _add_success(self):
+        self.xunit.add_success(message="Test succeeded.")
+
     def _add_failure(self, result):
         self.xunit.add_failure(stdout=repr(str(result)),
                                stderr="\n".join(self._running_test.error_messages),
@@ -254,10 +257,12 @@ class RegressionManager(object):
                 not self._running_test.expect_fail and
                 not self._running_test.expect_error):
             self.log.info("Test Passed: %s" % running_test_funcname)
+            self._add_success()
 
         elif (isinstance(result, TestFailure) and
                 self._running_test.expect_fail):
             self.log.info("Test failed as expected: " + _result_was())
+            self._add_success()
 
         elif (isinstance(result, TestSuccess) and
               self._running_test.expect_error):
@@ -274,6 +279,7 @@ class RegressionManager(object):
 
         elif isinstance(result, TestError) and self._running_test.expect_error:
             self.log.info("Test errored as expected: " + _result_was())
+            self._add_success()
 
         elif isinstance(result, SimFailure):
             if self._running_test.expect_error:
