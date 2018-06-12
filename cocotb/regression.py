@@ -36,6 +36,7 @@ import inspect
 from itertools import product
 import sys
 import os
+import traceback
 # For autodocumentation don't need the extension modules
 if "SPHINX_BUILD" in os.environ:
     simulator = None
